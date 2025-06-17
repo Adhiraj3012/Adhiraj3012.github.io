@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What If Simulator</title>
+  <style>
+    body {
+      background: #0f0f1f;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+    }
+    #question {
+      font-size: 1.5rem;
+      margin: 20px 0;
+      padding: 20px;
+      background: #1a1a2f;
+      border-radius: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button {
+      background: #ff6a6a;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ff3b3b;
+    }
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      color: #ff6a6a;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>💥 What If Simulator</h1>
+  <div id="question">Click the button to begin...</div>
+  <button onclick="newQuestion()">What if...?</button>
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    const questions = [
+      "What if humans could fly, but only when sneezing?",
+      "What if the internet went down for one whole year?",
+      "What if animals could talk — who would be the rudest?",
+      "What if dreams were real places you visited?",
+      "What if gravity reversed for 1 minute every day?",
+      "What if you could pause time, but only for 10 seconds?",
+      "What if your thoughts were broadcast like a podcast?",
+      "What if you could control one element — fire, water, air or earth?",
+      "What if you met yourself from the future?",
+      "What if aliens visited but only wanted pizza?",
+      "What if school was optional, but candy taxes were mandatory?",
+      "What if video games controlled *you*?",
+      "What if every word you said turned into a sticker?",
+      "What if mirrors showed how people *feel*, not look?"
+    ];
+
+    function newQuestion() {
+      const index = Math.floor(Math.random() * questions.length);
+      document.getElementById("question").textContent = questions[index];
+    }
+  </script>
+</body>
+</html>

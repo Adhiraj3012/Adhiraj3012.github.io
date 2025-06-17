@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Silly Slider Game</title>
+  <style>
+    body {
+      background: #12121c;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+    }
+    input[type="range"] {
+      width: 300px;
+      margin-top: 20px;
+    }
+    .output {
+      font-size: 1.5rem;
+      margin-top: 30px;
+      min-height: 60px;
+    }
+    a {
+      color: #ff6a6a;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 50px;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Silly Slider Game</h1>
+  <p>Slide to reveal your fate...</p>
+  <input type="range" min="0" max="100" value="50" id="slider" oninput="showMessage(this.value)" />
+  <div class="output" id="output">You're perfectly average.</div>
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    function showMessage(value) {
+      const output = document.getElementById("output");
+      const val = parseInt(value);
+
+      if (val < 10) output.textContent = "You're an actual potato 🥔";
+      else if (val < 20) output.textContent = "You just woke up 😴";
+      else if (val < 30) output.textContent = "You forgot what you're doing here...";
+      else if (val < 40) output.textContent = "Almost a genius... almost.";
+      else if (val < 50) output.textContent = "You're suspiciously normal.";
+      else if (val < 60) output.textContent = "You’re vibing at mid-speed 🚗";
+      else if (val < 70) output.textContent = "You might be cool. Might.";
+      else if (val < 80) output.textContent = "You're certified awesome 🌟";
+      else if (val < 90) output.textContent = "Big brain energy detected 🧠💥";
+      else if (val < 100) output.textContent = "You are a danger to society 😈";
+      else output.textContent = "You are the chosen one. 👑";
+    }
+  </script>
+</body>
+</html>

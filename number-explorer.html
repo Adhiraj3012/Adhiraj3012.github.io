@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Number Explorer</title>
+  <style>
+    body {
+      background: #1a1a2e;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      border: none;
+      width: 200px;
+      text-align: center;
+      outline: none;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff6a6a;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff3b3b;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 400px;
+    }
+    a {
+      color: #ff6a6a;
+      margin-top: 40px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔢 Number Explorer</h1>
+  <input type="number" id="numInput" placeholder="Enter a number" />
+  <button onclick="exploreNumber()">Explore</button>
+
+  <div class="result" id="result"></div>
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    function isPrime(n) {
+      if (n <= 1) return false;
+      if (n === 2) return true;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    function factorial(n) {
+      if (n < 0) return "N/A";
+      if (n === 0) return 1;
+      let f = 1;
+      for (let i = 1; i <= n; i++) f *= i;
+      return f;
+    }
+
+    function exploreNumber() {
+      const num = parseInt(document.getElementById("numInput").value);
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(num)) {
+        resultDiv.innerHTML = "⚠️ Please enter a valid number.";
+        return;
+      }
+
+      const evenOdd = num % 2 === 0 ? "Even" : "Odd";
+      const prime = isPrime(num) ? "Yes" : "No";
+      const square = num * num;
+      const cube = num * num * num;
+      const fact = factorial(num);
+
+      resultDiv.innerHTML = `
+        <strong>Here’s what we know about ${num}:</strong><br/>
+        ➤ Even/Odd: <b>${evenOdd}</b><br/>
+        ➤ Prime: <b>${prime}</b><br/>
+        ➤ Square: <b>${square}</b><br/>
+        ➤ Cube: <b>${cube}</b><br/>
+        ➤ Factorial: <b>${fact}</b>
+      `;
+    }
+  </script>
+</body>
+</html>

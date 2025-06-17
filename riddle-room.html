@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Riddle Room</title>
+  <style>
+    body {
+      background: #0d0d1d;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    #riddle {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      width: 250px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #ff6a6a;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff3b3b;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    a {
+      color: #ff6a6a;
+      margin-top: 40px;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>❓ Riddle Room</h1>
+  <div id="riddle">Loading a riddle...</div>
+  <input type="text" id="answerInput" placeholder="Your answer here..." />
+  <br>
+  <button onclick="checkAnswer()">Submit</button>
+  <div id="result"></div>
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    const riddles = [
+      {
+        question: "What has to be broken before you can use it?",
+        answer: "egg"
+      },
+      {
+        question: "I’m tall when I’m young, and I’m short when I’m old. What am I?",
+        answer: "candle"
+      },
+      {
+        question: "What month of the year has 28 days?",
+        answer: "all"
+      },
+      {
+        question: "What is full of holes but still holds water?",
+        answer: "sponge"
+      },
+      {
+        question: "What can you keep after giving it to someone?",
+        answer: "your word"
+      }
+    ];
+
+    let currentRiddle;
+    function loadRiddle() {
+      const randomIndex = Math.floor(Math.random() * riddles.length);
+      currentRiddle = riddles[randomIndex];
+      document.getElementById("riddle").textContent = currentRiddle.question;
+      document.getElementById("result").textContent = "";
+      document.getElementById("answerInput").value = "";
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById("answerInput").value.trim().toLowerCase();
+      const correct = currentRiddle.answer.toLowerCase();
+      const result = document.getElementById("result");
+
+      if (input === correct) {
+        result.innerHTML = "✅ Correct! You're a genius!";
+      } else {
+        result.innerHTML = "❌ Nope. Try again!";
+      }
+    }
+
+    window.onload = loadRiddle;
+  </script>
+</body>
+</html>

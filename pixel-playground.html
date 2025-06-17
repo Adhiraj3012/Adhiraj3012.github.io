@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pixel Playground</title>
+<style>
+  body {
+    background: #1e1e2f;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    user-select: none;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  #canvas {
+    border: 2px solid #555;
+    image-rendering: pixelated;
+    cursor: crosshair;
+    background: white;
+    margin-bottom: 10px;
+  }
+  .palette {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    transition: border-color 0.3s;
+  }
+  .color-swatch.selected {
+    border-color: #ff6a6a;
+  }
+  button {
+    background: #ff6a6a;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background: #ff3b3b;
+  }
+  a {
+    margin-top: 25px;
+    color: #ff6a6a;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<h1>Pixel Playground</h1>
+<canvas id="canvas" width="320" height="320"></canvas>
+
+<div class="palette">
+  <div class="color-swatch selected" style="background:#000000" data-color="#000000"></div>
+  <div class="color-swatch" style="background:#FF0000" data-color="#FF0000"></div>
+  <div class="color-swatch" style="background:#00FF00" data-color="#00FF00"></div>
+  <div class="color-swatch" style="background:#0000FF" data-color="#0000FF"></div>
+  <div class="color-swatch" style="background:#FFFF00" data-color="#FFFF00"></div>
+  <div class="color-swatch" style="background:#FF00FF" data-color="#FF00FF"></div>
+  <div class="color-swatch" style="background:#00FFFF" data-color="#00FFFF"></div>
+  <div class="color-swatch" style="background:#FFFFFF" data-color="#FFFFFF"></div>
+  <div class="color-swatch" style="background:#C0C0C0" data-color="#C0C0C0"></div>
+  <div class="color-swatch" style="background:#7F7F7F" data-color="#7F7F7F"></div>
+  <div class="color-swatch" style="background:#FFA500" data-color="#FFA500"></div>
+  <div class="color-swatch" id="eraser" title="Eraser" style="background:#fff; position: relative;">
+    <svg style="position: absolute; top: 6px; left: 6px;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff6a6a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3L7 13"></path><path d="M7 3L17 13"></path></svg>
+  </div>
+</div>
+
+<button id="clearBtn">Clear Canvas</button>
+
+<a href="index.html">← Back to Hub</a>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const pixelSize = 16;
+  const colors = document.querySelectorAll('.color-swatch');
+  const clearBtn = document.getElementById('clearBtn');
+  let currentColor = '#000000';
+  let drawing = false;
+
+  // Set canvas scaling for crisp pixels
+  canvas.style.width = canvas.width * 2 + 'px';
+  canvas.style.height = canvas.height * 2 + 'px';
+
+  // Fill white background
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw grid lines
+  function drawGrid() {
+    ctx.strokeStyle = '#ddd';
+    ctx.lineWidth = 0.5;
+    for(let x = 0; x <= canvas.width; x += pixelSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
+    for(let y = 0; y <= canvas.height; y += pixelSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+  }
+
+  drawGrid();
+
+  // Handle color selection and eraser
+  colors.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      colors.forEach(s => s.classList.remove('selected'));
+      swatch.classList.add('selected');
+      if (swatch.id === 'eraser') {
+        currentColor = '#fff'; // white for erase
+      } else {
+        currentColor = swatch.getAttribute('data-color');
+      }
+    });
+  });
+
+  // Draw a pixel on the canvas
+  function drawPixel(x, y) {
+    ctx.fillStyle = currentColor;
+    ctx.fillRect(x, y, pixelSize, pixelSize);
+    ctx.strokeStyle = '#ddd';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(x, y, pixelSize, pixelSize);
+  }
+
+  // Calculate pixel aligned coords
+  function getPixelCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    let x = Math.floor((e.clientX - rect.left) * scaleX / pixelSize) * pixelSize;
+    let y = Math.floor((e.clientY - rect.top) * scaleY / pixelSize) * pixelSize;
+    return {x, y};
+  }
+
+  // Mouse events for drawing
+  canvas.addEventListener('mousedown', e => {
+    drawing = true;
+    const {x, y} = getPixelCoords(e);
+    drawPixel(x, y);
+  });
+
+  canvas.addEventListener('mousemove', e => {
+    if (!drawing) return;
+    const {x, y} = getPixelCoords(e);
+    drawPixel(x, y);
+  });
+
+  window.addEventListener('mouseup', () => {
+    drawing = false;
+  });
+
+  // Clear button clears canvas and redraw grid
+  clearBtn.addEventListener('click', () => {
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rebel Clicker</title>
+  <style>
+    body {
+      background: #121212;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      margin: 0;
+      height: 100vh;
+      justify-content: center;
+    }
+    button {
+      font-size: 2rem;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 15px;
+      background: #ff5e5e;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ff4242;
+    }
+    #count {
+      margin-top: 20px;
+      font-size: 2.5rem;
+      letter-spacing: 3px;
+    }
+    a {
+      color: #ff5e5e;
+      margin-top: 40px;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <button id="clicker">🔥 Click Me!</button>
+  <div id="count">0</div>
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    const clicker = document.getElementById('clicker');
+    const count = document.getElementById('count');
+    let clicks = 0;
+    clicker.onclick = () => {
+      clicks++;
+      count.textContent = clicks;
+    };
+  </script>
+</body>
+</html>

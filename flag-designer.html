@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flag Designer</title>
+  <style>
+    body {
+      background: #0f0f1f;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .flag {
+      width: 320px;
+      height: 200px;
+      position: relative;
+      margin: 30px auto;
+      border: 4px solid #fff;
+      overflow: hidden;
+    }
+
+    .stripe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .stripe1, .stripe2, .stripe3 {
+      position: absolute;
+    }
+
+    .center-emoji {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      pointer-events: none;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 4px;
+    }
+
+    input[type="color"], input[type="text"], select {
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #ff6a6a;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff3b3b;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      color: #ff6a6a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏁 Flag Designer</h1>
+
+  <div class="flag" id="flag">
+    <div class="stripe stripe1"></div>
+    <div class="stripe stripe2"></div>
+    <div class="stripe stripe3"></div>
+    <div class="center-emoji" id="centerEmoji">🏴‍☠️</div>
+  </div>
+
+  <label>Layout:</label>
+  <select id="layout">
+    <option value="horizontal">Horizontal</option>
+    <option value="vertical">Vertical</option>
+    <option value="diagonal">Diagonal</option>
+  </select>
+
+  <label>Stripe 1 Color:</label>
+  <input type="color" id="color1" value="#000000" />
+
+  <label>Stripe 2 Color:</label>
+  <input type="color" id="color2" value="#ffffff" />
+
+  <label>Stripe 3 Color:</label>
+  <input type="color" id="color3" value="#ff0000" />
+
+  <label>Center Emoji:</label>
+  <input type="text" id="emojiInput" placeholder="😎" maxlength="2" />
+
+  <button onclick="updateFlag()">Update Flag</button>
+
+  <a href="index.html">← Back to Hub</a>
+
+  <script>
+    function updateFlag() {
+      const layout = document.getElementById("layout").value;
+      const color1 = document.getElementById("color1").value;
+      const color2 = document.getElementById("color2").value;
+      const color3 = document.getElementById("color3").value;
+      const emoji = document.getElementById("emojiInput").value || "🏁";
+
+      const stripe1 = document.querySelector(".stripe1");
+      const stripe2 = document.querySelector(".stripe2");
+      const stripe3 = document.querySelector(".stripe3");
+      const emojiDiv = document.getElementById("centerEmoji");
+
+      emojiDiv.textContent = emoji;
+
+      if (layout === "horizontal") {
+        stripe1.style.top = "0%";
+        stripe1.style.left = "0";
+        stripe1.style.width = "100%";
+        stripe1.style.height = "33.3%";
+        stripe1.style.background = color1;
+
+        stripe2.style.top = "33.3%";
+        stripe2.style.left = "0";
+        stripe2.style.width = "100%";
+        stripe2.style.height = "33.4%";
+        stripe2.style.background = color2;
+
+        stripe3.style.top = "66.6%";
+        stripe3.style.left = "0";
+        stripe3.style.width = "100%";
+        stripe3.style.height = "33.4%";
+        stripe3.style.background = color3;
+      }
+
+      if (layout === "vertical") {
+        stripe1.style.top = "0";
+        stripe1.style.left = "0%";
+        stripe1.style.height = "100%";
+        stripe1.style.width = "33.3%";
+        stripe1.style.background = color1;
+
+        stripe2.style.top = "0";
+        stripe2.style.left = "33.3%";
+        stripe2.style.height = "100%";
+        stripe2.style.width = "33.4%";
+        stripe2.style.background = color2;
+
+        stripe3.style.top = "0";
+        stripe3.style.left = "66.6%";
+        stripe3.style.height = "100%";
+        stripe3.style.width = "33.4%";
+        stripe3.style.background = color3;
+      }
+
+      if (layout === "diagonal") {
+        stripe1.style.width = "150%";
+        stripe1.style.height = "150%";
+        stripe1.style.transform = "rotate(45deg)";
+        stripe1.style.top = "-25%";
+        stripe1.style.left = "-25%";
+        stripe1.style.background = `linear-gradient(135deg, ${color1} 0%, ${color1} 33.3%, ${color2} 33.3%, ${color2} 66.6%, ${color3} 66.6%, ${color3} 100%)`;
+
+        // hide other stripes
+        stripe2.style.background = "transparent";
+        stripe2.style.width = "0";
+        stripe3.style.background = "transparent";
+        stripe3.style.width = "0";
+      } else {
+        // reset any diagonal effects
+        stripe1.style.transform = "none";
+      }
+    }
+
+    window.onload = updateFlag;
+  </script>
+</body>
+</html>
